@@ -13,10 +13,36 @@ export default class FirestoreManager {
     }
 
     validateEmail(email: string) {
-        const re =
-            /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        return new Promise(async (res, _) => {
+            this.initialize();
 
-        return re.test(String(email).toLowerCase());
+            var collectionRef = firebase.firestore().collection("waitlist");
+
+            await collectionRef
+                .where("email", "==", email)
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        if (doc) {
+                            console.log("ASDASDASD");
+
+                            res("Duplicate Waitlist Identified");
+                        }
+                    });
+                })
+                .catch((error) => {
+                    console.log("Error getting documents: ", error);
+                });
+
+            const re =
+                /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+            if (re.test(String(email).toLowerCase())) {
+                res("Success");
+            } else {
+                res("Invalid Email Address");
+            }
+        });
     }
 
     setEmail(email: string) {

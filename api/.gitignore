@@ -1,8 +1,8 @@
-.idea/
-.vscode/
+# dotenv environment variables file
+.env
+
+# Dependency directories
 node_modules/
-build/
-tmp/
-temp/
+
+# Build
 dist/
-src/.env

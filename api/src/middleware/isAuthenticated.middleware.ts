@@ -1,24 +1,28 @@
 import { MiddlewareFn } from "type-graphql";
-import User from "~/db/entity/User.entity";
 import ContextType from "~/types/Context.type";
 
 export const isAuthenticated: MiddlewareFn<ContextType> = async (
-  { context: { req } },
-  next
+    { context: { req, prisma } },
+    next
 ) => {
-  if (!(req.session! as any).userId) throw new Error("Not Authenticated.");
+    if (!(req.session! as any).userId) throw new Error("Not Authenticated.");
 
-  const user = await User.findOne(
-    {
-      id: (req.session! as any).userId,
-    },
-    {
-      relations: ["profile", "profile.connections"],
-    }
-  );
-  if (!user) throw new Error("Invalid User");
+    const user = await prisma.user.findUnique({
+        where: {
+            id: (req.session! as any).userId,
+        },
+        include: {
+            allProjects: true,
+            followedProjects: true,
+            likedProjects: true,
+            oauthConnections: true,
+            ownedProjects: true,
+            profile: true,
+        },
+    });
+    if (!user) throw new Error("Invalid User");
 
-  (req as any).user = user;
+    (req as any).user = user;
 
-  return next();
+    return next();
 };

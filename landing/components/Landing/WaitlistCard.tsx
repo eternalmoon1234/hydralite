@@ -5,7 +5,8 @@ import styles from "~/styles/Index.module.scss";
 import Icon from "../Icon";
 import toast, { Toaster } from "react-hot-toast";
 
-const notify = () => toast.error("Invalid Email Address");
+const error = (msg) => toast.error(msg);
+const success = () => toast.success("Successfully Waitlisted Email");
 
 const firestoreManager = new FirestoreManager();
 
@@ -16,18 +17,14 @@ const WaitlistCard = () => {
 
     async function handleSubmit(e: any) {
         e.preventDefault();
-        let status = firestoreManager.validateEmail(email);
-        if (status) {
-            firestoreManager.setEmail(email);
-            setSubmitValue(<Icon name="checkmark_green" />);
-            await sleep(2000);
-            setSubmitValue("Submit");
-        } else {
-            console.log("====================================");
-            console.log("Invalid Email Adress");
-            console.log("====================================");
-            notify();
-        }
+        firestoreManager.validateEmail(email).then((status) => {
+            if (status == "Success") {
+                firestoreManager.setEmail(email);
+                success();
+            } else {
+                error(status);
+            }
+        });
     }
     return (
         <div className={styles.waitlistCard}>

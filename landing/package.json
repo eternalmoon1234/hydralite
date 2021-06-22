@@ -7,6 +7,7 @@
   "repository": {
     "url": "https://github.com/hydralite/hydralite"
   },
+  "private": false,
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev",

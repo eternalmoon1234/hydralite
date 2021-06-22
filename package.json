@@ -1,13 +1,14 @@
 {
   "name": "hydralite",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "workspaces": [
-    "api_new/",
+    "api/",
     "web/",
-    "landing/"
+    "landing/",
+    "login/"
   ],
   "scripts": {
-    "dev": "yarn workspace @hydralite/api-new run dev && yarn workspace @hydralite/web run dev"
+    "dev:suite1": "yarn workspace @hydralite/api run dev && yarn workspace @hydralite/web run dev"
   }
 }

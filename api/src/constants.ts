@@ -1,8 +1,8 @@
-import { NonEmptyArray } from 'type-graphql'
+import { NonEmptyArray } from "type-graphql";
 
-export const projectName = 'hydralite'
-export const pathsToEntities = [__dirname + '\\db\\entity\\**\\*.entity.js']
+export const projectName = "hydralite";
 export const pathsToResolvers = [
-  __dirname + '\\modules\\resolvers\\**\\*.resolver.js',
-] as NonEmptyArray<string>
-export const isProd = process.env.NODE_ENV === 'production'
+    __dirname + "\\resolvers\\**\\*.resolver.js",
+    __dirname + "\\resolvers\\**\\*.resolver.ts",
+] as NonEmptyArray<string>;
+export const isProd = process.env.NODE_ENV === "production";
