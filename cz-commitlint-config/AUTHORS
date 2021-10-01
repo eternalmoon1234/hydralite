@@ -1,5 +1,0 @@
-# Format: Name <user@domain.tld> # Hydralite <OSS contributor|core team member|community maintainer>
-# Usually the name-email part can be same as your Git user info.
-# This file is for both past and current package authors and maintainers. For contributors,
-# update the contributors array in the package.json file.
-Andrei Jiroh Eugenio Halili <andreijiroh@madebythepins.tk> # Hydralite OSS contributor
