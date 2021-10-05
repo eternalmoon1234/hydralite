@@ -31,7 +31,7 @@ To start both the frontend webapp and the GraphQL API backend servers:
 1. Navigate to the root directory and install dependencies with `yarn` (or `yarn install`)
 2. Then, run an intuitive setup procedure with `yarn setup`. It'll ask you what you need to enter below in order to generate an `.env` file. You can also create that file manually from `.env.example` in the API directory and edit manually if you want.
    - OAuth client IDs and secrets for: GitHub, Discord and Google (you can skip if you don't have these, but this might fire up some errors when you start it)
-   - Postgres database URL string for data storage and Prisma database migrations.
+   - Postgres database URL string for data storage and Prisma database migrations. (we are not using prisma anymore).
    - Redis URL for data cache.
 3. Once setup is complete, run `yarn dev` to start both the web app and API server in development mode.
 

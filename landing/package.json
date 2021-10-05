@@ -12,6 +12,7 @@
 	},
 	"devDependencies": {
 		"@firebase/app": "^0.6.27",
+		"@sveltejs/adapter-vercel": "^1.0.0-next.0",
 		"@sveltejs/kit": "next",
 		"@types/cookie": "^0.4.1",
 		"@typescript-eslint/eslint-plugin": "^4.31.1",
