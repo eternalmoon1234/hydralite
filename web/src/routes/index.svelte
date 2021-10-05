@@ -1,16 +1,24 @@
-<script context="module" lang="ts">
-export const prerender = true;
+<script>
+	// import { onMount } from 'svelte';
+
+	// onMount(() => {
+	// 	let theme = localStorage.getItem('darkMode');
+	// 	if (theme === null) {
+	// 		const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+	// 		const darkModeEnabled = darkModeQuery.matches;
+	// 		theme = darkModeEnabled.valueOf() ? 'dark' : 'light';
+	// 		localStorage.setItem('darkMode', theme);
+	// 	}
+
+	// 	document.body.classList.add(theme);
+	// });
 </script>
 
-<script lang="ts">
-import type { User } from "$lib/types";
-import { getContext } from "svelte";
-import type { Writable } from "svelte/store";
-import Skeleton from "$lib/components/Skeleton/Skeleton.svelte";
-import ProtectedRoute from "$lib/components/Home/ProtectedRoute.svelte";
-const user: Writable<User> = getContext("Auth");
-</script>
-
-<ProtectedRoute>
-	<Skeleton />
-</ProtectedRoute>
+<div class="dark:bg-acrylic-700 w-screen h-screen">
+	<div class="flex items-center justify-between w-full h-[80px] px-4">
+		<h1>HYDRALITE</h1>
+		<h6>das</h6>
+		<h6>das</h6>
+	</div>
+</div>

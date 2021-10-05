@@ -1,14 +1,14 @@
-import Root from "../../generated/root.svelte";
-import { fallback, routes } from "../../generated/manifest.js";
-import { g as get_base_uri } from "../chunks/utils.js";
-import { writable } from "svelte/store";
-import { init } from "./singletons.js";
-import { set_paths } from "../paths.js";
+import Root from '../../generated/root.svelte';
+import { fallback, routes } from '../../generated/manifest.js';
+import { g as get_base_uri } from '../chunks/utils.js';
+import { writable } from 'svelte/store';
+import { init } from './singletons.js';
+import { set_paths } from '../paths.js';
 
 function scroll_state() {
 	return {
 		x: pageXOffset,
-		y: pageYOffset,
+		y: pageYOffset
 	};
 }
 
@@ -17,7 +17,7 @@ function scroll_state() {
  * @returns {HTMLAnchorElement | SVGAElement | null}
  */
 function find_anchor(node) {
-	while (node && node.nodeName.toUpperCase() !== "A") node = node.parentNode; // SVG <a> elements have a lowercase name
+	while (node && node.nodeName.toUpperCase() !== 'A') node = node.parentNode; // SVG <a> elements have a lowercase name
 	return /** @type {HTMLAnchorElement | SVGAElement} */ (node);
 }
 
@@ -52,28 +52,28 @@ class Router {
 		this.enabled = true;
 
 		// make it possible to reset focus
-		document.body.setAttribute("tabindex", "-1");
+		document.body.setAttribute('tabindex', '-1');
 
 		// create initial history entry, so we can return here
-		history.replaceState(history.state || {}, "", location.href);
+		history.replaceState(history.state || {}, '', location.href);
 	}
 
 	init_listeners() {
-		if ("scrollRestoration" in history) {
-			history.scrollRestoration = "manual";
+		if ('scrollRestoration' in history) {
+			history.scrollRestoration = 'manual';
 		}
 
 		// Adopted from Nuxt.js
 		// Reset scrollRestoration to auto when leaving page, allowing page reload
 		// and back-navigation from other pages to use the browser to restore the
 		// scrolling position.
-		addEventListener("beforeunload", () => {
-			history.scrollRestoration = "auto";
+		addEventListener('beforeunload', () => {
+			history.scrollRestoration = 'auto';
 		});
 
 		// Setting scrollRestoration to manual again when returning to this page.
-		addEventListener("load", () => {
-			history.scrollRestoration = "manual";
+		addEventListener('load', () => {
+			history.scrollRestoration = 'manual';
 		});
 
 		// There's no API to capture the scroll location right before the user
@@ -81,27 +81,23 @@ class Router {
 
 		/** @type {NodeJS.Timeout} */
 		let scroll_timer;
-		addEventListener("scroll", () => {
+		addEventListener('scroll', () => {
 			clearTimeout(scroll_timer);
 			scroll_timer = setTimeout(() => {
 				// Store the scroll location in the history
 				// This will persist even if we navigate away from the site and come back
 				const new_state = {
 					...(history.state || {}),
-					"sveltekit:scroll": scroll_state(),
+					'sveltekit:scroll': scroll_state()
 				};
-				history.replaceState(
-					new_state,
-					document.title,
-					window.location.href
-				);
+				history.replaceState(new_state, document.title, window.location.href);
 			}, 50);
 		});
 
 		/** @param {MouseEvent|TouchEvent} event */
 		const trigger_prefetch = (event) => {
 			const a = find_anchor(/** @type {Node} */ (event.target));
-			if (a && a.href && a.hasAttribute("sveltekit:prefetch")) {
+			if (a && a.href && a.hasAttribute('sveltekit:prefetch')) {
 				this.prefetch(get_href(a));
 			}
 		};
@@ -117,23 +113,17 @@ class Router {
 			}, 20);
 		};
 
-		addEventListener("touchstart", trigger_prefetch);
-		addEventListener("mousemove", handle_mousemove);
+		addEventListener('touchstart', trigger_prefetch);
+		addEventListener('mousemove', handle_mousemove);
 
 		/** @param {MouseEvent} event */
-		addEventListener("click", (event) => {
+		addEventListener('click', (event) => {
 			if (!this.enabled) return;
 
 			// Adapted from https://github.com/visionmedia/page.js
 			// MIT license https://github.com/visionmedia/page.js#license
 			if (event.button || event.which !== 1) return;
-			if (
-				event.metaKey ||
-				event.ctrlKey ||
-				event.shiftKey ||
-				event.altKey
-			)
-				return;
+			if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 			if (event.defaultPrevented) return;
 
 			const a = find_anchor(/** @type {Node} */ (event.target));
@@ -150,12 +140,9 @@ class Router {
 			// Ignore if tag has
 			// 1. 'download' attribute
 			// 2. 'rel' attribute includes external
-			const rel = (a.getAttribute("rel") || "").split(/\s+/);
+			const rel = (a.getAttribute('rel') || '').split(/\s+/);
 
-			if (
-				a.hasAttribute("download") ||
-				(rel && rel.includes("external"))
-			) {
+			if (a.hasAttribute('download') || (rel && rel.includes('external'))) {
 				return;
 			}
 
@@ -164,32 +151,24 @@ class Router {
 
 			if (!this.owns(url)) return;
 
-			const noscroll = a.hasAttribute("sveltekit:noscroll");
+			const noscroll = a.hasAttribute('sveltekit:noscroll');
 
-			history.pushState({}, "", url.href);
-			this._navigate(
-				url,
-				noscroll ? scroll_state() : null,
-				false,
-				[],
-				url.hash
-			);
+			history.pushState({}, '', url.href);
+			this._navigate(url, noscroll ? scroll_state() : null, false, [], url.hash);
 			event.preventDefault();
 		});
 
-		addEventListener("popstate", (event) => {
+		addEventListener('popstate', (event) => {
 			if (event.state && this.enabled) {
 				const url = new URL(location.href);
-				this._navigate(url, event.state["sveltekit:scroll"], false, []);
+				this._navigate(url, event.state['sveltekit:scroll'], false, []);
 			}
 		});
 	}
 
 	/** @param {URL} url */
 	owns(url) {
-		return (
-			url.origin === location.origin && url.pathname.startsWith(this.base)
-		);
+		return url.origin === location.origin && url.pathname.startsWith(this.base);
 	}
 
 	/**
@@ -198,11 +177,9 @@ class Router {
 	 */
 	parse(url) {
 		if (this.owns(url)) {
-			const path = url.pathname.slice(this.base.length) || "/";
+			const path = url.pathname.slice(this.base.length) || '/';
 
-			const routes = this.routes.filter(([pattern]) =>
-				pattern.test(path)
-			);
+			const routes = this.routes.filter(([pattern]) => pattern.test(path));
 
 			const query = new URLSearchParams(url.search);
 			const id = `${path}?${query}`;
@@ -220,29 +197,14 @@ class Router {
 	 */
 	async goto(
 		href,
-		{
-			noscroll = false,
-			replaceState = false,
-			keepfocus = false,
-			state = {},
-		} = {},
+		{ noscroll = false, replaceState = false, keepfocus = false, state = {} } = {},
 		chain
 	) {
 		const url = new URL(href, get_base_uri(document));
 
 		if (this.enabled && this.owns(url)) {
-			history[replaceState ? "replaceState" : "pushState"](
-				state,
-				"",
-				href
-			);
-			return this._navigate(
-				url,
-				noscroll ? scroll_state() : null,
-				keepfocus,
-				chain,
-				url.hash
-			);
+			history[replaceState ? 'replaceState' : 'pushState'](state, '', href);
+			return this._navigate(url, noscroll ? scroll_state() : null, keepfocus, chain, url.hash);
 		}
 
 		location.href = url.href;
@@ -267,9 +229,7 @@ class Router {
 		const info = this.parse(url);
 
 		if (!info) {
-			throw new Error(
-				"Attempted to prefetch a URL that does not belong to this app"
-			);
+			throw new Error('Attempted to prefetch a URL that does not belong to this app');
 		}
 
 		return this.renderer.load(info);
@@ -286,36 +246,28 @@ class Router {
 		const info = this.parse(url);
 
 		if (!info) {
-			throw new Error(
-				"Attempted to navigate to a URL that does not belong to this app"
-			);
+			throw new Error('Attempted to navigate to a URL that does not belong to this app');
 		}
 
 		// remove trailing slashes
-		if (info.path !== "/") {
-			const has_trailing_slash = info.path.endsWith("/");
+		if (info.path !== '/') {
+			const has_trailing_slash = info.path.endsWith('/');
 
 			const incorrect =
-				(has_trailing_slash && this.trailing_slash === "never") ||
+				(has_trailing_slash && this.trailing_slash === 'never') ||
 				(!has_trailing_slash &&
-					this.trailing_slash === "always" &&
-					!(info.path.split("/").pop() || "").includes("."));
+					this.trailing_slash === 'always' &&
+					!(info.path.split('/').pop() || '').includes('.'));
 
 			if (incorrect) {
-				info.path = has_trailing_slash
-					? info.path.slice(0, -1)
-					: info.path + "/";
-				history.replaceState(
-					{},
-					"",
-					`${this.base}${info.path}${location.search}`
-				);
+				info.path = has_trailing_slash ? info.path.slice(0, -1) : info.path + '/';
+				history.replaceState({}, '', `${this.base}${info.path}${location.search}`);
 			}
 		}
 
 		this.renderer.notify({
 			path: info.path,
-			query: info.query,
+			query: info.query
 		});
 
 		await this.renderer.update(info, chain, false);
@@ -346,7 +298,7 @@ function hash(value) {
 	let hash = 5381;
 	let i = value.length;
 
-	if (typeof value === "string") {
+	if (typeof value === 'string') {
 		while (i) hash = (hash * 33) ^ value.charCodeAt(--i);
 	} else {
 		while (i) hash = (hash * 33) ^ value[--i];
@@ -361,38 +313,30 @@ function hash(value) {
  */
 function normalize(loaded) {
 	const has_error_status =
-		loaded.status &&
-		loaded.status >= 400 &&
-		loaded.status <= 599 &&
-		!loaded.redirect;
+		loaded.status && loaded.status >= 400 && loaded.status <= 599 && !loaded.redirect;
 	if (loaded.error || has_error_status) {
 		const status = loaded.status;
 
 		if (!loaded.error && has_error_status) {
 			return {
 				status: status || 500,
-				error: new Error(),
+				error: new Error()
 			};
 		}
 
-		const error =
-			typeof loaded.error === "string"
-				? new Error(loaded.error)
-				: loaded.error;
+		const error = typeof loaded.error === 'string' ? new Error(loaded.error) : loaded.error;
 
 		if (!(error instanceof Error)) {
 			return {
 				status: 500,
 				error: new Error(
 					`"error" property returned from load() must be a string or instance of Error, received type "${typeof error}"`
-				),
+				)
 			};
 		}
 
 		if (!status || status < 400 || status > 599) {
-			console.warn(
-				'"error" returned from load() without a valid status code — defaulting to 500'
-			);
+			console.warn('"error" returned from load() without a valid status code — defaulting to 500');
 			return { status: 500, error };
 		}
 
@@ -405,23 +349,19 @@ function normalize(loaded) {
 				status: 500,
 				error: new Error(
 					'"redirect" property returned from load() must be accompanied by a 3xx status code'
-				),
+				)
 			};
 		}
 
-		if (typeof loaded.redirect !== "string") {
+		if (typeof loaded.redirect !== 'string') {
 			return {
 				status: 500,
-				error: new Error(
-					'"redirect" property returned from load() must be a string'
-				),
+				error: new Error('"redirect" property returned from load() must be a string')
 			};
 		}
 	}
 
-	return /** @type {import('types/internal').NormalizedLoadOutput} */ (
-		loaded
-	);
+	return /** @type {import('types/internal').NormalizedLoadOutput} */ (loaded);
 }
 
 /**
@@ -474,11 +414,11 @@ function page_store(value) {
  * @param {RequestInit} [opts]
  */
 function initial_fetch(resource, opts) {
-	const url = typeof resource === "string" ? resource : resource.url;
+	const url = typeof resource === 'string' ? resource : resource.url;
 
 	let selector = `script[data-type="svelte-data"][data-url="${url}"]`;
 
-	if (opts && typeof opts.body === "string") {
+	if (opts && typeof opts.body === 'string') {
 		selector += `[data-body="${hash(opts.body)}"]`;
 	}
 
@@ -520,7 +460,7 @@ class Renderer {
 			// @ts-ignore - we need the initial value to be null
 			page: null,
 			session_id: 0,
-			branch: [],
+			branch: []
 		};
 
 		/** @type {Map<string, import('./types').NavigationResult>} */
@@ -529,13 +469,13 @@ class Renderer {
 		/** @type {{id: string | null, promise: Promise<import('./types').NavigationResult> | null}} */
 		this.loading = {
 			id: null,
-			promise: null,
+			promise: null
 		};
 
 		this.stores = {
 			page: page_store({}),
 			navigating: writable(/** @type {Navigating | null} */ (null)),
-			session: writable(session),
+			session: writable(session)
 		};
 
 		this.$session = null;
@@ -584,7 +524,7 @@ class Renderer {
 					page,
 					context,
 					status: is_leaf ? status : undefined,
-					error: is_leaf ? error : undefined,
+					error: is_leaf ? error : undefined
 				});
 
 				branch.push(node);
@@ -596,12 +536,12 @@ class Renderer {
 							status: node.loaded.status,
 							error: node.loaded.error,
 							path: page.path,
-							query: page.query,
+							query: page.query
 						};
 					} else if (node.loaded.context) {
 						context = {
 							...context,
-							...node.loaded.context,
+							...node.loaded.context
 						};
 					}
 				}
@@ -609,10 +549,7 @@ class Renderer {
 
 			result = error_args
 				? await this._load_error(error_args)
-				: await this._get_navigation_result_from_branch({
-						page,
-						branch,
-				  });
+				: await this._get_navigation_result_from_branch({ page, branch });
 		} catch (/** @type {unknown} */ e) {
 			if (error) throw e;
 
@@ -620,7 +557,7 @@ class Renderer {
 				status: 500,
 				error: coalesce_to_error(e),
 				path: page.path,
-				query: page.query,
+				query: page.query
 			});
 		}
 
@@ -636,18 +573,18 @@ class Renderer {
 
 	/** @param {{ path: string, query: URLSearchParams }} destination */
 	notify({ path, query }) {
-		dispatchEvent(new CustomEvent("sveltekit:navigation-start"));
+		dispatchEvent(new CustomEvent('sveltekit:navigation-start'));
 
 		if (this.started) {
 			this.stores.navigating.set({
 				from: {
 					path: this.current.page.path,
-					query: this.current.page.query,
+					query: this.current.page.query
 				},
 				to: {
 					path,
-					query,
-				},
+					query
+				}
 			});
 		}
 	}
@@ -659,10 +596,7 @@ class Renderer {
 	 */
 	async update(info, chain, no_cache) {
 		const token = (this.token = {});
-		let navigation_result = await this._get_navigation_result(
-			info,
-			no_cache
-		);
+		let navigation_result = await this._get_navigation_result(info, no_cache);
 
 		// abort if user navigated during update
 		if (token !== this.token) return;
@@ -673,22 +607,18 @@ class Renderer {
 			if (chain.length > 10 || chain.includes(info.path)) {
 				navigation_result = await this._load_error({
 					status: 500,
-					error: new Error("Redirect loop"),
+					error: new Error('Redirect loop'),
 					path: info.path,
-					query: info.query,
+					query: info.query
 				});
 			} else {
 				if (this.router) {
-					this.router.goto(
-						navigation_result.redirect,
-						{ replaceState: true },
-						[...chain, info.path]
-					);
+					this.router.goto(navigation_result.redirect, { replaceState: true }, [
+						...chain,
+						info.path
+					]);
 				} else {
-					location.href = new URL(
-						navigation_result.redirect,
-						location.href
-					).href;
+					location.href = new URL(navigation_result.redirect, location.href).href;
 				}
 
 				return;
@@ -708,15 +638,12 @@ class Renderer {
 			this._init(navigation_result);
 		}
 
-		dispatchEvent(new CustomEvent("sveltekit:navigation-end"));
+		dispatchEvent(new CustomEvent('sveltekit:navigation-end'));
 		this.loading.promise = null;
 		this.loading.id = null;
 
 		if (!this.router) return;
-		const leaf_node =
-			navigation_result.state.branch[
-				navigation_result.state.branch.length - 1
-			];
+		const leaf_node = navigation_result.state.branch[navigation_result.state.branch.length - 1];
 		if (leaf_node && leaf_node.module.router === false) {
 			this.router.disable();
 		} else {
@@ -741,8 +668,7 @@ class Renderer {
 
 		if (!this.invalidating) {
 			this.invalidating = Promise.resolve().then(async () => {
-				const info =
-					this.router && this.router.parse(new URL(location.href));
+				const info = this.router && this.router.parse(new URL(location.href));
 				if (info) await this.update(info, [], true);
 
 				this.invalidating = null;
@@ -756,16 +682,16 @@ class Renderer {
 	_init(result) {
 		this.current = result.state;
 
-		const style = document.querySelector("style[data-svelte]");
+		const style = document.querySelector('style[data-svelte]');
 		if (style) style.remove();
 
 		this.root = new this.Root({
 			target: this.target,
 			props: {
 				stores: this.stores,
-				...result.props,
+				...result.props
 			},
-			hydrate: true,
+			hydrate: true
 		});
 
 		this.started = true;
@@ -808,7 +734,7 @@ class Renderer {
 			const result = await this._load(
 				{
 					route,
-					info,
+					info
 				},
 				no_cache
 			);
@@ -819,7 +745,7 @@ class Renderer {
 			status: 404,
 			error: new Error(`Not found: ${info.path}`),
 			path: info.path,
-			query: info.query,
+			query: info.query
 		});
 	}
 
@@ -831,20 +757,18 @@ class Renderer {
 	 * }} opts
 	 */
 	async _get_navigation_result_from_branch({ page, branch }) {
-		const filtered = /** @type {import('./types').BranchNode[] } */ (
-			branch.filter(Boolean)
-		);
+		const filtered = /** @type {import('./types').BranchNode[] } */ (branch.filter(Boolean));
 
 		/** @type {import('./types').NavigationResult} */
 		const result = {
 			state: {
 				page,
 				branch,
-				session_id: this.session_id,
+				session_id: this.session_id
 			},
 			props: {
-				components: filtered.map((node) => node.module.default),
-			},
+				components: filtered.map((node) => node.module.default)
+			}
 		};
 
 		for (let i = 0; i < filtered.length; i += 1) {
@@ -910,10 +834,10 @@ class Renderer {
 				query: false,
 				session: false,
 				context: false,
-				dependencies: [],
+				dependencies: []
 			},
 			loaded: null,
-			context,
+			context
 		};
 
 		/** @type {Record<string, string>} */
@@ -924,7 +848,7 @@ class Renderer {
 					node.uses.params.add(key);
 					return page.params[key];
 				},
-				enumerable: true,
+				enumerable: true
 			});
 		}
 
@@ -945,7 +869,7 @@ class Renderer {
 					get query() {
 						node.uses.query = true;
 						return page.query;
-					},
+					}
 				},
 				get session() {
 					node.uses.session = true;
@@ -956,27 +880,17 @@ class Renderer {
 					return { ...context };
 				},
 				fetch(resource, info) {
-					const url =
-						typeof resource === "string" ? resource : resource.url;
-					const { href } = new URL(
-						url,
-						new URL(page.path, document.baseURI)
-					);
+					const url = typeof resource === 'string' ? resource : resource.url;
+					const { href } = new URL(url, new URL(page.path, document.baseURI));
 					node.uses.dependencies.push(href);
 
-					return started
-						? fetch(resource, info)
-						: initial_fetch(resource, info);
-				},
+					return started ? fetch(resource, info) : initial_fetch(resource, info);
+				}
 			};
 
 			if (error) {
-				/** @type {import('types/page').ErrorLoadInput} */ (
-					load_input
-				).status = status;
-				/** @type {import('types/page').ErrorLoadInput} */ (
-					load_input
-				).error = error;
+				/** @type {import('types/page').ErrorLoadInput} */ (load_input).status = status;
+				/** @type {import('types/page').ErrorLoadInput} */ (load_input).error = error;
 			}
 
 			const loaded = await module.load.call(null, load_input);
@@ -1012,11 +926,9 @@ class Renderer {
 
 		const changed = this.current.page && {
 			path: path !== this.current.page.path,
-			params: Object.keys(params).filter(
-				(key) => this.current.page.params[key] !== params[key]
-			),
+			params: Object.keys(params).filter((key) => this.current.page.params[key] !== params[key]),
 			query: query.toString() !== this.current.page.query.toString(),
-			session: this.session_id !== this.current.session_id,
+			session: this.session_id !== this.current.session_id
 		};
 
 		/** @type {import('types/page').Page} */
@@ -1052,21 +964,17 @@ class Renderer {
 					!previous ||
 					module !== previous.module ||
 					(changed.path && previous.uses.path) ||
-					changed.params.some((param) =>
-						previous.uses.params.has(param)
-					) ||
+					changed.params.some((param) => previous.uses.params.has(param)) ||
 					(changed.query && previous.uses.query) ||
 					(changed.session && previous.uses.session) ||
-					previous.uses.dependencies.some((dep) =>
-						this.invalid.has(dep)
-					) ||
+					previous.uses.dependencies.some((dep) => this.invalid.has(dep)) ||
 					(context_changed && previous.uses.context);
 
 				if (changed_since_last_render) {
 					node = await this._load_node({
 						module,
 						page,
-						context,
+						context
 					});
 
 					const is_leaf = i === a.length - 1;
@@ -1081,7 +989,7 @@ class Renderer {
 							return {
 								redirect: node.loaded.redirect,
 								props: {},
-								state: this.current,
+								state: this.current
 							};
 						}
 
@@ -1119,20 +1027,14 @@ class Renderer {
 								error,
 								module: await b[i](),
 								page,
-								context: node_loaded.context,
+								context: node_loaded.context
 							});
 
-							if (
-								error_loaded &&
-								error_loaded.loaded &&
-								error_loaded.loaded.error
-							) {
+							if (error_loaded && error_loaded.loaded && error_loaded.loaded.error) {
 								continue;
 							}
 
-							branch = branch
-								.slice(0, j + 1)
-								.concat(error_loaded);
+							branch = branch.slice(0, j + 1).concat(error_loaded);
 							break load;
 						} catch (e) {
 							continue;
@@ -1144,13 +1046,13 @@ class Renderer {
 					status,
 					error,
 					path,
-					query,
+					query
 				});
 			} else {
 				if (node && node.loaded && node.loaded.context) {
 					context = {
 						...context,
-						...node.loaded.context,
+						...node.loaded.context
 					};
 				}
 
@@ -1174,13 +1076,13 @@ class Renderer {
 			host: this.host,
 			path,
 			query,
-			params: {},
+			params: {}
 		};
 
 		const node = await this._load_node({
 			module: await this.fallback[0],
 			page,
-			context: {},
+			context: {}
 		});
 
 		const branch = [
@@ -1190,8 +1092,8 @@ class Renderer {
 				error,
 				module: await this.fallback[1],
 				page,
-				context: (node && node.loaded && node.loaded.context) || {},
-			}),
+				context: (node && node.loaded && node.loaded.context) || {}
+			})
 		];
 
 		return await this._get_navigation_result_from_branch({ page, branch });
@@ -1218,20 +1120,9 @@ class Renderer {
  *     page: import('types/page').Page;
  *   };
  * }} opts */
-async function start({
-	paths,
-	target,
-	session,
-	host,
-	route,
-	spa,
-	trailing_slash,
-	hydrate,
-}) {
+async function start({ paths, target, session, host, route, spa, trailing_slash, hydrate }) {
 	if (import.meta.env.DEV && !target) {
-		throw new Error(
-			"Missing target element. See https://kit.svelte.dev/docs#configuration-target"
-		);
+		throw new Error('Missing target element. See https://kit.svelte.dev/docs#configuration-target');
 	}
 
 	const renderer = new Renderer({
@@ -1239,7 +1130,7 @@ async function start({
 		fallback,
 		target,
 		session,
-		host,
+		host
 	});
 
 	const router = route
@@ -1247,7 +1138,7 @@ async function start({
 				base: paths.base,
 				routes,
 				trailing_slash,
-				renderer,
+				renderer
 		  })
 		: null;
 
@@ -1260,7 +1151,7 @@ async function start({
 		router.init_listeners();
 	}
 
-	dispatchEvent(new CustomEvent("sveltekit:start"));
+	dispatchEvent(new CustomEvent('sveltekit:start'));
 }
 
 export { start };

@@ -1,8 +1,8 @@
 /** @type {string} */
-let base = "";
+let base = '';
 
 /** @type {string} */
-let assets = "";
+let assets = '';
 
 /** @param {{ base: string, assets: string }} paths */
 function set_paths(paths) {

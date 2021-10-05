@@ -1,6 +1,6 @@
-import { getContext } from "svelte";
-import { browser } from "./env.js";
-import "../env.js";
+import { getContext } from 'svelte';
+import { browser } from './env.js';
+import '../env.js';
 
 const ssr = !browser;
 
@@ -8,7 +8,7 @@ const ssr = !browser;
 let warned = false;
 function stores() {
 	if (!warned) {
-		console.error("stores() is deprecated; use getStores() instead");
+		console.error('stores() is deprecated; use getStores() instead');
 		warned = true;
 	}
 	return getStores();
@@ -18,26 +18,24 @@ function stores() {
  * @type {import('$app/stores').getStores}
  */
 const getStores = () => {
-	const stores = getContext("__svelte__");
+	const stores = getContext('__svelte__');
 
 	return {
 		page: {
-			subscribe: stores.page.subscribe,
+			subscribe: stores.page.subscribe
 		},
 		navigating: {
-			subscribe: stores.navigating.subscribe,
+			subscribe: stores.navigating.subscribe
 		},
 		// TODO remove this (for 1.0? after 1.0?)
 		// @ts-expect-error - deprecated, not part of type definitions, but still callable
 		get preloading() {
-			console.error(
-				"stores.preloading is deprecated; use stores.navigating instead"
-			);
+			console.error('stores.preloading is deprecated; use stores.navigating instead');
 			return {
-				subscribe: stores.navigating.subscribe,
+				subscribe: stores.navigating.subscribe
 			};
 		},
-		session: stores.session,
+		session: stores.session
 	};
 };
 
@@ -47,7 +45,7 @@ const page = {
 	subscribe(fn) {
 		const store = getStores().page;
 		return store.subscribe(fn);
-	},
+	}
 };
 
 /** @type {typeof import('$app/stores').navigating} */
@@ -55,7 +53,7 @@ const navigating = {
 	subscribe(fn) {
 		const store = getStores().navigating;
 		return store.subscribe(fn);
-	},
+	}
 };
 
 /** @param {string} verb */
@@ -79,8 +77,8 @@ const session = {
 
 		return store.subscribe(fn);
 	},
-	set: () => error("set"),
-	update: () => error("update"),
+	set: () => error('set'),
+	update: () => error('update')
 };
 
 export { getStores, navigating, page, session, stores };

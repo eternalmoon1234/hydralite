@@ -63,7 +63,8 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "prettier-plugin-svelte": "^2.4.0"
   },
   "dependencies": {
     "concurrently": "^6.2.0",

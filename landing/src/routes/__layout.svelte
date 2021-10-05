@@ -2,6 +2,9 @@
 	import Logo from '$lib/Logo.svelte';
 	import '../app.css';
 	import '../fonts.css';
+
+	import * as animateScroll from 'svelte-scrollto';
+
 	let scrollYAxis;
 </script>
 
@@ -11,9 +14,21 @@
 	<h1>
 		<Logo height="50" />
 	</h1>
-	<button class="font-extrabold font-montserrat">Join Waitlist</button>
+	<button
+		class="font-extrabold font-montserrat"
+		on:click={() => {
+			animateScroll.scrollTo({ element: '#waitlist', duration: 1000 });
+		}}>Join Waitlist</button
+	>
 </div>
-
+<svelte:head>
+	<title>Hydralite</title>
+	<meta
+		name="description"
+		content="Connect with like-minded developers, onboard investors
+	and seamlessly manage your codebase."
+	/>
+</svelte:head>
 <main>
 	<slot />
 </main>
@@ -28,6 +43,6 @@
 	}
 
 	.nav-bg {
-		@apply backdrop-filter backdrop-blur-lg bg-opacity-25 border-b border-gray-300 text-gray-400;
+		@apply backdrop-filter backdrop-blur-lg bg-opacity-25 border-b border-gray-300 text-gray-700;
 	}
 </style>

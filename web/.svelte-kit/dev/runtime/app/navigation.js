@@ -1,5 +1,5 @@
-import { router as router$1 } from "../internal/singletons.js";
-import { g as get_base_uri } from "../chunks/utils.js";
+import { router as router$1 } from '../internal/singletons.js';
+import { g as get_base_uri } from '../chunks/utils.js';
 
 const router = /** @type {import('../client/router').Router} */ (router$1);
 
@@ -12,12 +12,10 @@ function guard(name) {
 	};
 }
 
-const goto = import.meta.env.SSR ? guard("goto") : goto_;
-const invalidate = import.meta.env.SSR ? guard("invalidate") : invalidate_;
-const prefetch = import.meta.env.SSR ? guard("prefetch") : prefetch_;
-const prefetchRoutes = import.meta.env.SSR
-	? guard("prefetchRoutes")
-	: prefetchRoutes_;
+const goto = import.meta.env.SSR ? guard('goto') : goto_;
+const invalidate = import.meta.env.SSR ? guard('invalidate') : invalidate_;
+const prefetch = import.meta.env.SSR ? guard('prefetch') : prefetch_;
+const prefetchRoutes = import.meta.env.SSR ? guard('prefetchRoutes') : prefetchRoutes_;
 
 /**
  * @type {import('$app/navigation').goto}
@@ -46,16 +44,11 @@ function prefetch_(href) {
  */
 async function prefetchRoutes_(pathnames) {
 	const matching = pathnames
-		? router.routes.filter((route) =>
-				pathnames.some((pathname) => route[0].test(pathname))
-		  )
+		? router.routes.filter((route) => pathnames.some((pathname) => route[0].test(pathname)))
 		: router.routes;
 
 	const promises = matching
-		.filter(
-			/** @returns {r is import('types/internal').CSRPage} */ (r) =>
-				r && r.length > 1
-		)
+		.filter(/** @returns {r is import('types/internal').CSRPage} */ (r) => r && r.length > 1)
 		.map((r) => Promise.all(r[1].map((load) => load())));
 
 	await Promise.all(promises);
