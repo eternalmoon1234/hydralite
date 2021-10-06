@@ -1,12 +1,29 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { user } from '../Stores/stores';
+	import axios from 'axios';
 	let isUserPopulated: boolean = false;
-	if (user === null) {
-		// Send request to API
-		isUserPopulated = false;
-	} else {
-		isUserPopulated = true;
-	}
+	onMount(() => {
+		if ($user === null) {
+			axios
+				.get(`${import.meta.env.VITE_WEB_URL}auth/getUser`, {
+					headers: {
+						Authorization: `bearer ${localStorage.getItem('accessToken')}`
+					}
+				})
+				.then((val) => {
+					let { error } = val.data;
+
+					if (error === undefined) {
+						user.set(val.data);
+					}
+				});
+			// Send request to API
+			isUserPopulated = false;
+		} else {
+			isUserPopulated = true;
+		}
+	});
 </script>
 
 {#if isUserPopulated}
@@ -16,5 +33,6 @@
 		<img src="/logo/logo.svg" alt="Hydralite logo" width="20%" class="motion-safe:animate-pulse" />
 	</div>
 {:else}
+	{JSON.stringify($user)}
 	<slot />
 {/if}
