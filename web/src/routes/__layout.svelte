@@ -21,7 +21,7 @@
 	});
 </script>
 
-<main class="w-screen h-screen">
+<main class="w-screen h-screen bg-white dark:bg-acrylic-700">
 	<slot />
 </main>
 
