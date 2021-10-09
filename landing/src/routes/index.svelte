@@ -40,7 +40,7 @@
 			<span class="text-accent font-extrabold">Deploy</span>{' '}Software
 		</Typewriter>
 	</h1>
-	<h4 class="text-center font-extrabold text-[#414141]">
+	<h4 class="text-center font-montserrat font-extrabold text-[#414141]">
 		Connect with like-minded developers, onboard investors <br /> and seamlessly manage your codebase.
 	</h4>
 </div>
@@ -60,7 +60,7 @@
 		<Project />
 	</div>
 	<div
-		class="hidden xl:flex absolute w-full bottom-[-10vh] lg:bottom-[-20vh] items-center justify-center"
+		class="hidden xl:flex absolute w-full bottom-[-10vh] lg:bottom-[-25vh] xl:bottom-[-20vh] items-center justify-center"
 	>
 		<div class="rounded-3xl shadow-2xl w-[80%] h-[225px] bg-white grid grid-cols-4 px-5">
 			<div class="w-full h-full flex items-center justify-around flex-col">
@@ -192,4 +192,7 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div class="w-full h-[250px] bg-[#2A3753] flex items-center justify-around">
+	<img src="/favicon.png" alt="Hydralite logo" width="100px" />
 </div>

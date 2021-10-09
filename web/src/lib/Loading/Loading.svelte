@@ -16,6 +16,7 @@
 
 					if (error === undefined) {
 						user.set(val.data);
+						console.log($user.Profile.Email);
 					}
 				});
 			// Send request to API
