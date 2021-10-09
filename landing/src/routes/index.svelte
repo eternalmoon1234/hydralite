@@ -60,7 +60,7 @@
 		<Project />
 	</div>
 	<div
-		class="hidden xl:flex absolute w-full bottom-[-10vh] lg:bottom-[-25vh] xl:bottom-[-20vh] items-center justify-center"
+		class="hidden xl:flex absolute w-full bottom-[-10vh] xl:bottom-[-25vh] 2xl:bottom-[-18vh] items-center justify-center"
 	>
 		<div class="rounded-3xl shadow-2xl w-[80%] h-[225px] bg-white grid grid-cols-4 px-5">
 			<div class="w-full h-full flex items-center justify-around flex-col">
