@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import Loading from '$lib/Loading/Loading.svelte';
-
+	import DIndex from '$lib/Desktop/index.svelte';
 	// import Login from '$lib/Unauth/Login/Login.svelte';
 </script>
 
@@ -14,7 +14,9 @@
 
 <main class="w-screen h-screen">
 	<div class="font-montserrat w-full h-full">
-		<Loading />
+		<Loading>
+			<DIndex />
+		</Loading>
 		<!-- <Login /> -->
 	</div>
 </main>

@@ -34,6 +34,5 @@
 		<img src="/logo/logo.svg" alt="Hydralite logo" width="20%" class="motion-safe:animate-pulse" />
 	</div>
 {:else}
-	{JSON.stringify($user)}
 	<slot />
 {/if}
