@@ -1,33 +1,62 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { user } from '../Stores/stores';
+	import Login from '../Unauth/Login/Login.svelte';
+	import { user, projects } from '../Stores/stores';
 	import axios from 'axios';
+	let err = false;
 	let isUserPopulated: boolean = false;
+	let isProjectPopulated: boolean = false;
 	onMount(() => {
-		if ($user === null) {
-			axios
-				.get(`${import.meta.env.VITE_WEB_URL}auth/getUser`, {
-					headers: {
-						Authorization: `bearer ${localStorage.getItem('accessToken')}`
-					}
-				})
-				.then((val) => {
-					let { error } = val.data;
-
-					if (error === undefined) {
-						user.set(val.data);
-						console.log($user.Profile.Email);
-					}
-				});
-			// Send request to API
-			isUserPopulated = false;
+		let accessToken = localStorage.getItem('accessToken');
+		if (accessToken == null) {
+			err = true;
 		} else {
-			isUserPopulated = true;
+			if ($user === null && $projects === null) {
+				axios
+					.all([
+						axios.get(`${import.meta.env.VITE_WEB_URL}auth/getUser`, {
+							headers: {
+								Authorization: `bearer ${accessToken}`
+							}
+						}),
+						axios.get(`${import.meta.env.VITE_WEB_URL}project/getProjects`, {
+							headers: {
+								Authorization: `bearer ${accessToken}`
+							}
+						})
+					])
+					.then(
+						axios.spread((data1, data2) => {
+							let { error } = data1.data;
+							console.log(data1.data);
+							if (error === undefined) {
+								user.set(data1.data);
+								isUserPopulated = true;
+							} else {
+								err = true;
+							}
+							let { error2 } = data2.data;
+							console.log(data2.data);
+							if (error2 === undefined) {
+								projects.set(data2.data);
+								isProjectPopulated = true;
+							} else {
+								err = true;
+							}
+						})
+					);
+			} else {
+				isUserPopulated = true;
+				isProjectPopulated = true;
+			}
 		}
 	});
 </script>
 
-{#if isUserPopulated}
+{#if err}
+	<Login />
+{/if}
+{#if !isUserPopulated && !isProjectPopulated}
 	<div
 		class="bg-white h-screen w-screen dark:bg-acrylic-700 flex items-center justify-center absolute flex-col dark:text-white text-black select-none"
 	>
