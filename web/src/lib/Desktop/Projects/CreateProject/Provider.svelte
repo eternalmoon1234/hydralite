@@ -1,13 +1,37 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import Buttons from './c/Buttons.svelte';
+	import axios from 'axios';
 	let tab: Writable<string> = getContext('Tabs');
+	let config: Writable<any> = getContext('Config');
 	const Skip = () => {
 		tab.set('details');
 	};
-	const Github = () => {
-		tab.set('details');
+	onMount(() => {
+		const encryptedKey: string = localStorage.getItem('encryptedKey');
+		if (encryptedKey !== null) {
+			axios.post(`${import.meta.env.VITE_WEB_URL}decrypt`, { code: encryptedKey }).then((val) => {
+				const resp = val.data;
+				const { AccessToken, RefreshToken } = JSON.parse(resp);
+				let conf = {
+					AccessToken: AccessToken,
+					RefreshToken: RefreshToken
+				};
+				config.set(conf);
+				localStorage.removeItem('encryptedKey');
+				tab.set('repo');
+			});
+		}
+	});
+	const OnClick = (provider: string) => {
+		axios
+			.get(`${import.meta.env.VITE_WEB_URL}auth/import/login?provider=${provider}`)
+			.then((val) => {
+				const resp = val.data;
+				const { url } = resp;
+				window.location.replace(url);
+			});
 	};
 </script>
 
@@ -29,9 +53,9 @@
 	</div>
 	<div class="flex items-center justify-between">
 		<div class="flex gap-4">
-			<Buttons provider="Github" hasImage={true} onClick={Github} />
-			<Buttons provider="Gitlab" hasImage={true} />
-			<Buttons provider="Bitbucket" hasImage={true} />
+			<Buttons provider="Github" hasImage={true} onClick={OnClick} />
+			<Buttons provider="GitLab" hasImage={true} onClick={OnClick} />
+			<Buttons provider="BitBucket" hasImage={true} onClick={OnClick} />
 		</div>
 		<Buttons provider="Skip" hasImage={false} onClick={Skip} />
 	</div>

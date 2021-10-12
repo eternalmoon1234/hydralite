@@ -12,18 +12,16 @@
 	import axios from 'axios';
 	import { onMount } from 'svelte';
 	export let provider: string;
-	let errorMSG: string = 'Logging in';
+	let errorMSG: string = '';
 	onMount(() => {
 		axios
-			.get(`${import.meta.env.VITE_WEB_URL}auth/${provider}${window.location.search}`)
+			.get(`${import.meta.env.VITE_WEB_URL}auth/${provider}/import${window.location.search}`)
 			.then((val) => {
 				const resp = val.data;
 				let { error } = resp;
 				if (error === undefined) {
-					let { accessToken, refreshToken } = resp;
-					localStorage.setItem('accessToken', accessToken);
-					localStorage.setItem('refreshToken', refreshToken);
-					window.location.replace('/');
+					localStorage.setItem('encryptedKey', resp);
+					window.location.replace('/createProject');
 				} else {
 					errorMSG = 'An unexpected error occured redirecting you to home page in 5 seconds';
 					setTimeout(function () {

@@ -9,6 +9,8 @@
 	import Details from '$lib/Desktop/Projects/CreateProject/Details.svelte';
 	let tab = writable('provider');
 	setContext('Tabs', tab);
+	let config = writable(null);
+	setContext('Config', config);
 </script>
 
 <Loading>
