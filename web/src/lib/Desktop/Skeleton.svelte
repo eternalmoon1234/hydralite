@@ -23,13 +23,13 @@
 		</div>
 	</div>
 	<div class="flex">
-	{#if sidebar}
-	<div class="h-[calc(100vh-60px)] w-[70px] flex-col items-center justify-center gap-3">
-		{#each $projects.Projects as proj}
-			<ProjectIcons {proj} />
-		{/each}
+		{#if sidebar}
+			<div class="h-[calc(100vh-60px)] w-[70px] flex-col items-center justify-center gap-3">
+				{#each $projects.Projects as proj}
+					<ProjectIcons {proj} />
+				{/each}
+			</div>
+		{/if}
+		<slot />
 	</div>
-	{/if}
-		<slot></slot>
-</div>
 </div>
