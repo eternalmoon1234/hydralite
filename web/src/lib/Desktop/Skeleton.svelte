@@ -2,6 +2,7 @@
 	import Dropdown from '$lib/assets/Desktop/Dropdown.svelte';
 	import ProjectIcons from './Projects/ProjectIcons.svelte';
 	import { user, projects } from '../Stores/stores';
+	export let sidebar: boolean = true;
 </script>
 
 <div class="font-montserrat">
@@ -21,10 +22,14 @@
 			<Dropdown />
 		</div>
 	</div>
-
+	<div class="flex">
+	{#if sidebar}
 	<div class="h-[calc(100vh-60px)] w-[70px] flex-col items-center justify-center gap-3">
 		{#each $projects.Projects as proj}
 			<ProjectIcons {proj} />
 		{/each}
 	</div>
+	{/if}
+		<slot></slot>
+</div>
 </div>
