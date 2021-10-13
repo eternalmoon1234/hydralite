@@ -45,14 +45,14 @@
 	class="bg-lblack w-[80%] h-[40%] rounded-2xl shadow-lg mt-6 p-6 font-montserrat text-black dark:text-white"
 >
 	<h1 class="font-semibold text-black dark:text-white font-montserrat text-2xl">
-		Import an existing repository
+		Project details
 	</h1>
 	<h6 class="font-normal mt-2 text-black dark:text-white">
-		Don’t have a repository? We’ll create one for you, so you can <span
+		Already have a repository? <span
 			class="text-iris-400 cursor-pointer"
 			on:click={() => {
 				tab.set('details');
-			}}>skip this step.</span
+			}}> Import it</span
 		>
 	</h6>
 	<div class="flex items-center justify-center flex-col">
