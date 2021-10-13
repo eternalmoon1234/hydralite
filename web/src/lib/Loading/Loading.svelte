@@ -28,7 +28,6 @@
 					.then(
 						axios.spread((data1, data2) => {
 							let { error } = data1.data;
-							console.log(data1.data);
 							if (error === undefined) {
 								user.set(data1.data);
 								isUserPopulated = true;
@@ -36,7 +35,6 @@
 								err = true;
 							}
 							let { error2 } = data2.data;
-							console.log(data2.data);
 							if (error2 === undefined) {
 								projects.set(data2.data);
 								isProjectPopulated = true;

@@ -18,7 +18,6 @@
 	let gitInfo: Writable<any> = getContext('GitInfo');
 	const submit = () => {
 		let accessToken = localStorage.getItem('accessToken');
-		console.log(isPublic);
 		axios
 			.post(
 				`${import.meta.env.VITE_WEB_URL}project/createProject`,

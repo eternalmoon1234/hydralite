@@ -81,7 +81,6 @@ import Tabs from './Tabs.svelte';
 				allOrgs.push(User);
 			});
 			setCurrentOrg(User.login);
-			console.log(allRepos);
 		});
 	} else {
 		tab.set('provider');

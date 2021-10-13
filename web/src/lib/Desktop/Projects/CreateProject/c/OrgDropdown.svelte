@@ -9,7 +9,6 @@
 	let menu = null; // menu wrapper DOM reference
 	export let setCurrentOrg;
 	onMount(() => {
-		console.log(user);
 		const handleOutsideClick = (event) => {
 			if (show && !menu.contains(event.target)) {
 				show = false;
