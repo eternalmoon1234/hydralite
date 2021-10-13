@@ -2,6 +2,7 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { Github } from '$lib/git/Github';
+import OrgDropdown from './c/OrgDropdown.svelte';
 	interface Repository {
 		full_name: string;
 		org: string;
@@ -58,6 +59,11 @@
 	} else {
 		tab.set('provider');
 	}
+	let user = {
+		picture: "https://codechips.me/assets/images/ism.webp",
+
+		name: "Cool"
+	}
 </script>
 
 <div
@@ -74,5 +80,10 @@
 			}}>skip this step.</span
 		>
 	</h6>
-	{$tab}
+	<div class="w-[50%] bg-[#2A303F] ">
+		{#if allOrgs.length !== 0}
+			<OrgDropdown user={allOrgs} currentUser={User}/>
+		{/if}
+	</div>
 </div>
+
