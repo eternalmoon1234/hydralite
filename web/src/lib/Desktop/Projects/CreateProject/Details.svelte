@@ -2,57 +2,64 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import VisibilityDropDown from './c/VisibilityDropDown.svelte';
-	import axios from "axios"
+	import axios from 'axios';
 	import { notifications } from '$lib/Toast/notifs';
-	import Toast from "$lib/Toast/Toast.svelte"
+	import Toast from '$lib/Toast/Toast.svelte';
 	let tab: Writable<string> = getContext('Tabs');
 	let isPublic: boolean = true;
 	const setISPublic = (val: boolean) => {
-		isPublic = val
-	}
+		isPublic = val;
+	};
 	const getISPublic = (): boolean => {
-		return isPublic
-	}
+		return isPublic;
+	};
 	let name: string;
 	let description;
 	let gitInfo: Writable<any> = getContext('GitInfo');
 	const submit = () => {
-		let accessToken = localStorage.getItem("accessToken")
-		console.log(isPublic)
+		let accessToken = localStorage.getItem('accessToken');
+		console.log(isPublic);
 		axios
-			.post(`${import.meta.env.VITE_WEB_URL}project/createProject`, {
-				"name": name,
-				"description": description,
-				"private": isPublic ? "false" : "true",
-				"git_repo": $gitInfo.org + "/" + $gitInfo.repo
-			}, {headers: {
-								Authorization: `bearer ${accessToken}`
-			}})
+			.post(
+				`${import.meta.env.VITE_WEB_URL}project/createProject`,
+				{
+					name: name,
+					description: description,
+					private: isPublic ? 'false' : 'true',
+					git_repo: $gitInfo.org + '/' + $gitInfo.repo
+				},
+				{
+					headers: {
+						Authorization: `bearer ${accessToken}`
+					}
+				}
+			)
 			.then((val) => {
 				const resp = val.data as any;
 				let { error } = resp;
 				if (error === undefined) {
-					notifications.success("Successfully created Project", 3000)
+					notifications.success('Successfully created Project', 3000);
 				} else {
-					notifications.danger(error, 3000)
+					notifications.danger(error, 3000);
 				}
 			});
-	}
+	};
 </script>
+
 <Toast />
 
 <div
 	class="bg-lblack w-[80%] h-[40%] rounded-2xl shadow-lg mt-6 p-6 font-montserrat text-black dark:text-white"
 >
-	<h1 class="font-semibold text-black dark:text-white font-montserrat text-2xl">
-		Project details
-	</h1>
+	<h1 class="font-semibold text-black dark:text-white font-montserrat text-2xl">Project details</h1>
 	<h6 class="font-normal mt-2 text-black dark:text-white">
 		Already have a repository? <span
 			class="text-iris-400 cursor-pointer"
 			on:click={() => {
 				tab.set('details');
-			}}> Import it</span
+			}}
+		>
+			Import it</span
 		>
 	</h6>
 	<div class="flex items-center justify-center flex-col">
@@ -74,7 +81,17 @@
 		</div>
 		<div class="w-full h-[12vh] flex mt-10 flex-col">
 			<label for="description">Description</label>
-			<textarea bind:value={description} type="text" id="description" placeholder="Description" maxlength="190" rows="6" spellcheck="false" style="padding-right: 31.69px;" class="rounded-xl w-full h-full focus:outline-none text-black bg-[#2F3541] px-3 py-2 resize-none dark:text-white"></textarea>
+			<textarea
+				bind:value={description}
+				type="text"
+				id="description"
+				placeholder="Description"
+				maxlength="190"
+				rows="6"
+				spellcheck="false"
+				style="padding-right: 31.69px;"
+				class="rounded-xl w-full h-full focus:outline-none text-black bg-[#2F3541] px-3 py-2 resize-none dark:text-white"
+			/>
 		</div>
 	</div>
 	<div class="flex items-center w-full justify-end mt-5">

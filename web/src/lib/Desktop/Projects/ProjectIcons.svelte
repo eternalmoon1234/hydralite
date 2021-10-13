@@ -4,5 +4,11 @@
 </script>
 
 <div class="pl-5 px-2">
-	<img src={proj.Image} width="50px" height="50px" class="rounded-full" alt={proj.name} />
+	<img
+		src={proj.Image}
+		width="50px"
+		height="50px"
+		class="rounded-full hover:rounded-xl cursor-pointer"
+		alt={proj.name}
+	/>
 </div>

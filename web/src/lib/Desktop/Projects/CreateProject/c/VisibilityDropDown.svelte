@@ -2,10 +2,10 @@
 	import Dropdown from '$lib/assets/Desktop/Dropdown.svelte';
 	import { onMount } from 'svelte';
 	import { scale } from 'svelte/transition';
-    export let getisPublic;
-    export let setisPublic;
-	let isPublic = getisPublic()
-    let show = false; // menu state
+	export let getisPublic;
+	export let setisPublic;
+	let isPublic = getisPublic();
+	let show = false; // menu state
 	let menu = null; // menu wrapper DOM reference
 
 	onMount(() => {
@@ -39,7 +39,7 @@
 			on:click={() => (show = !show)}
 			class="menu focus:outline-none focus:shadow-solid w-full h-full rounded-xl bg-[#2F3541] flex items-center justify-between px-4"
 		>
-			{isPublic ? "Public" : "Private"}
+			{isPublic ? 'Public' : 'Private'}
 			<Dropdown />
 		</button>
 
@@ -51,12 +51,19 @@
             rounded shadow-md"
 			>
 				<button
-                on:click={() => {setisPublic(true); show = false; isPublic=true}}
+					on:click={() => {
+						setisPublic(true);
+						show = false;
+						isPublic = true;
+					}}
 					class="flex items-center justify-between w-full h-full px-4 py-2 hover:bg-green-500 hover:text-green-100"
 					>Public
 				</button>
 				<button
-                on:click={() => {setisPublic(false); show = false, isPublic=false}}
+					on:click={() => {
+						setisPublic(false);
+						(show = false), (isPublic = false);
+					}}
 					class="flex items-center justify-between w-full h-full px-4 py-2 hover:bg-green-500 hover:text-green-100"
 					>Private
 				</button>

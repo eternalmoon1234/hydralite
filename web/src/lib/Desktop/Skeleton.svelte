@@ -2,6 +2,8 @@
 	import Dropdown from '$lib/assets/Desktop/Dropdown.svelte';
 	import ProjectIcons from './Projects/ProjectIcons.svelte';
 	import { user, projects } from '../Stores/stores';
+	import Plus from '$lib/assets/Desktop/Plus.svelte';
+	import Button from '$lib/Unauth/Login/components/Button.svelte';
 	export let sidebar: boolean = true;
 </script>
 
@@ -25,9 +27,20 @@
 	<div class="flex">
 		{#if sidebar}
 			<div class="h-[calc(100vh-60px)] w-[70px] flex-col items-center justify-center gap-3">
-				{#each $projects.Projects as proj}
-					<ProjectIcons {proj} />
-				{/each}
+				{#if $projects.Projects === null}
+					<div />
+				{:else}
+					{#each $projects.Projects as proj}
+						<ProjectIcons {proj} />
+					{/each}
+				{/if}
+				<a href="/createProject">
+					<div
+						class="w-[50px] h-[50px] ml-4 mt-2 rounded-full hover:rounded-xl cursor-pointer bg-lblack flex items-center justify-center"
+					>
+						<Plus />
+					</div></a
+				>
 			</div>
 		{/if}
 		<slot />

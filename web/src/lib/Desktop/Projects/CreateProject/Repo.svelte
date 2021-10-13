@@ -116,7 +116,7 @@
 	<div class="flex items-center w-full justify-end">
 		<button
 			on:click={() => submit()}
-			class="bg-[#2E374A] px-7 py-2 rounded-lg shadow-md font-montserrat hover:shadow-none duration-75 flex items-center justify-center gap-3"
+			class="bg-[#2E374A] border-2 border-acrylic-600 px-7 py-2 rounded-lg shadow-md font-montserrat hover:shadow-none duration-75 flex items-center justify-center gap-3"
 		>
 			<h1 class="text-white font-medium">Continue</h1>
 		</button>
