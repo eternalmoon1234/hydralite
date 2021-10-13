@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+
 	let tab: Writable<string> = getContext('Tabs');
+
+	let config: Writable<any> = getContext('Config');
+	
 </script>
 
 <div class="bg-dark-bgMuted2 w-[80%] h-[40%] rounded-2xl shadow-lg mt-6 p-6 font-montserrat">

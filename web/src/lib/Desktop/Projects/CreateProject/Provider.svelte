@@ -3,6 +3,7 @@
 	import type { Writable } from 'svelte/store';
 	import Buttons from './c/Buttons.svelte';
 	import axios from 'axios';
+    import {Github} from "$lib/git/Github"
 	let tab: Writable<string> = getContext('Tabs');
 	let config: Writable<any> = getContext('Config');
 	const Skip = () => {
