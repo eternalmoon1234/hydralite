@@ -36,7 +36,7 @@
 </script>
 
 <div
-	class="bg-lblack w-[80%] h-[40%] rounded-2xl shadow-lg mt-6 p-6 font-montserrat flex justify-between flex-col"
+	class="bg-lblack w-[80%] h-auto rounded-2xl shadow-lg mt-6 p-6 font-montserrat flex justify-between flex-col"
 >
 	<div>
 		<h1 class="font-semibold text-black dark:text-white font-montserrat text-2xl">
@@ -51,7 +51,7 @@
 			>
 		</h6>
 	</div>
-	<div class="flex items-center justify-between">
+	<div class="flex items-center justify-between mt-28">
 		<div class="flex gap-4">
 			<Buttons provider="Github" hasImage={true} onClick={OnClick} />
 			<Buttons provider="GitLab" hasImage={true} onClick={OnClick} />

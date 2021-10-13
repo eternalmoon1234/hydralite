@@ -88,7 +88,7 @@ import Tabs from './Tabs.svelte';
 </script>
 
 <div
-	class="bg-lblack w-[80%] h-[40%] rounded-2xl shadow-lg mt-6 p-6 font-montserrat flex justify-between flex-col"
+	class="bg-lblack w-[80%] h-auto rounded-2xl shadow-lg mt-6 p-6 font-montserrat flex justify-between flex-col"
 >
 	<div>
 		<h1 class="font-semibold text-black dark:text-white font-montserrat text-2xl">
@@ -103,7 +103,7 @@ import Tabs from './Tabs.svelte';
 			>
 		</h6>
 	</div>
-	<div class="flex w-[100%] gap-3">
+	<div class="flex w-[100%] gap-3 mt-5">
 		<div class="w-[100%] bg-[#2A303F]">
 			{#if allOrgs.length !== 0}
 				<OrgDropdown user={allOrgs} currentUser={User} {setCurrentOrg} />
@@ -113,7 +113,7 @@ import Tabs from './Tabs.svelte';
 			<RepoSearch {getRepo} currentOrg={getCurrentOrg} {setCurrentRepo} {currentRepo} />
 		</div>
 	</div>
-	<div class="flex items-center w-full justify-end">
+	<div class="flex items-center w-full justify-end mt-11">
 		<button
 			on:click={() => submit()}
 			class="bg-[#2E374A] border-2 border-acrylic-600 px-7 py-2 rounded-lg shadow-md font-montserrat hover:shadow-none duration-75 flex items-center justify-center gap-3"

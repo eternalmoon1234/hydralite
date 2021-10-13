@@ -48,7 +48,7 @@
 <Toast />
 
 <div
-	class="bg-lblack w-[80%] h-[40%] rounded-2xl shadow-lg mt-6 p-6 font-montserrat text-black dark:text-white"
+	class="bg-lblack w-[80%] h-auto flex justify-center flex-col rounded-2xl shadow-lg mt-6 p-6 font-montserrat text-black dark:text-white"
 >
 	<h1 class="font-semibold text-black dark:text-white font-montserrat text-2xl">Project details</h1>
 	<h6 class="font-normal mt-2 text-black dark:text-white">
