@@ -3,13 +3,29 @@
 	import { onMount } from 'svelte';
 	import { scale } from 'svelte/transition';
 
-	export let user;
-	export let currentUser = user[0];
+	export let getRepo;
+	export let setCurrentRepo;
+	export let currentOrg;
 	let show = false; // menu state
 	let menu = null; // menu wrapper DOM reference
-	export let setCurrentOrg;
+	let allRepos = [];
+	let currentRepo: string;
+
+	const SearchItems = async (term: string) => {
+		let repos = getRepo();
+
+		for (let index = 0; index < repos.length; index++) {
+			const element = repos[index];
+			if (element.org === currentOrg()) {
+				if (element.name.indexOf(term) !== -1) {
+					allRepos = [];
+					allRepos.push(element);
+					show = true;
+				}
+			}
+		}
+	};
 	onMount(() => {
-		console.log(user);
 		const handleOutsideClick = (event) => {
 			if (show && !menu.contains(event.target)) {
 				show = false;
@@ -32,27 +48,19 @@
 			document.removeEventListener('keyup', handleEscape, false);
 		};
 	});
-	const setCurrentUser = (user) => {
-		let u = {
-			avatar_url: user.avatar_url,
-			login: user.login
-		};
-		setCurrentOrg(user.login);
-		currentUser = u;
-		show = false;
-	};
 </script>
 
-<div class="relative font-montserrat w-full h-full" bind:this={menu}>
-	<div>
-		<button
-			on:click={() => (show = !show)}
-			class="focus:outline-none focus:shadow-solid w-full h-full flex items-center px-5 text-black dark:text-white"
-		>
-			<img class="w-10 my-2 rounded-full" src={currentUser.avatar_url} alt={currentUser.login} />
-			<h5 class="px-5">{currentUser.login}</h5>
-		</button>
+<div class="w-full h-full rounded-xl border-2 border-[#2E374A]">
+	<input
+		type="text"
+		class="w-full h-full rounded-xl bg-transparent focus:outline-none px-4 text-black dark:text-white font-extrabold"
+		placeholder="Search"
+		on:input={(a) => SearchItems(a.currentTarget.value)}
+	/>
+</div>
 
+<div class="relative font-montserrat" bind:this={menu}>
+	<div>
 		{#if show}
 			<div
 				in:scale={{ duration: 100, start: 0.95 }}
@@ -60,16 +68,13 @@
 				class="origin-top-right absolute right-0 w-full mt-1 bg-[#2A303F]
             rounded shadow-md"
 			>
-				{#each user as u}
-					{#if u !== null}
-						<button
-							on:click={() => setCurrentUser(u)}
-							class="flex items-center  w-full px-5 hover:bg-green-500 hover:text-green-100 text-black dark:text-white"
-						>
-							<img class="w-[5%] my-2 rounded-full" src={u.avatar_url} alt={u.login} />
-							<h5 class="px-5">{u.login}</h5>
-						</button>
-					{/if}
+				{#each allRepos as repos}
+					<button
+						on:click={() => setCurrentRepo(repos.name)}
+						class="flex items-center  py-4 w-full px-5 hover:bg-green-500 hover:text-green-100 text-black dark:text-white"
+					>
+						<h5 class="px-5">{repos.name}</h5>
+					</button>
 				{/each}
 			</div>
 		{/if}
