@@ -20,7 +20,7 @@
 					RefreshToken: RefreshToken
 				};
 				config.set(conf);
-				localStorage.removeItem('encryptedKey');
+				// localStorage.removeItem('encryptedKey');
 				tab.set('repo');
 			});
 		}

@@ -22,10 +22,18 @@
 	let allOrgs = [];
 	let User;
 	let config: Writable<any> = getContext('Config');
+	let gitInfo: Writable<any> = getContext('GitInfo');
 	let currentOrg: string;
 	let currentRepo: string;
 	let github = new Github($config.AccessToken, $config.RefreshToken);
-
+	const submit = () => {
+		let Info = {
+			repo: currentRepo,
+			org: currentOrg
+		};
+		gitInfo.set(Info);
+		tab.set('details');
+	};
 	const getRepo = (): [Repository] => {
 		return allRepos as any as [Repository];
 	};
@@ -71,7 +79,8 @@
 				allOrgs = val;
 				allOrgs.push(User);
 			});
-			setCurrentOrg(User);
+			setCurrentOrg(User.login);
+			console.log(allRepos);
 		});
 	} else {
 		tab.set('provider');
@@ -101,11 +110,12 @@
 			{/if}
 		</div>
 		<div class="w-[100%]">
-			<RepoSearch {getRepo} currentOrg={getCurrentOrg} {setCurrentRepo} />
+			<RepoSearch {getRepo} currentOrg={getCurrentOrg} {setCurrentRepo} {currentRepo} />
 		</div>
 	</div>
 	<div class="flex items-center w-full justify-end">
 		<button
+			on:click={() => submit()}
 			class="bg-[#2E374A] px-7 py-2 rounded-lg shadow-md font-montserrat hover:shadow-none duration-75 flex items-center justify-center gap-3"
 		>
 			<h1 class="text-white font-medium">Continue</h1>

@@ -10,7 +10,9 @@
 	let tab = writable('provider');
 	setContext('Tabs', tab);
 	let config = writable(null);
+	let gitinfo = writable(null);
 	setContext('Config', config);
+	setContext('GitInfo', gitinfo);
 </script>
 
 <Loading>

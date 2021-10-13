@@ -6,10 +6,10 @@
 	export let getRepo;
 	export let setCurrentRepo;
 	export let currentOrg;
+	export let currentRepo;
 	let show = false; // menu state
 	let menu = null; // menu wrapper DOM reference
 	let allRepos = [];
-	let currentRepo: string;
 
 	const SearchItems = async (term: string) => {
 		let repos = getRepo();
@@ -52,6 +52,7 @@
 
 <div class="w-full h-full rounded-xl border-2 border-[#2E374A]">
 	<input
+		value={currentRepo === undefined ? '' : currentRepo}
 		type="text"
 		class="w-full h-full rounded-xl bg-transparent focus:outline-none px-4 text-black dark:text-white font-extrabold"
 		placeholder="Search"
@@ -70,7 +71,10 @@
 			>
 				{#each allRepos as repos}
 					<button
-						on:click={() => setCurrentRepo(repos.name)}
+						on:click={() => {
+							setCurrentRepo(repos.name);
+							show = false;
+						}}
 						class="flex items-center  py-4 w-full px-5 hover:bg-green-500 hover:text-green-100 text-black dark:text-white"
 					>
 						<h5 class="px-5">{repos.name}</h5>
