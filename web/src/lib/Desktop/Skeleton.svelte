@@ -18,7 +18,7 @@
 		</div>
 		<div class="flex items-center justify-between w-[185px] h-[43px] p-2 rounded-xl bg-lblack">
 			<img src={$user.Profile.ProfilePic} class="rounded-full" width="23" height="23" alt="" />
-			<h4 class="text-[17px] px-2 font-semibold w-[185px-23px] truncate" >
+			<h4 class="text-[17px] px-2 font-semibold w-[185px-23px] truncate">
 				{$user.Profile.Name}
 			</h4>
 			<Dropdown />

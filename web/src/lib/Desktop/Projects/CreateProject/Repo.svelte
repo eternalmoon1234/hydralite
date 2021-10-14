@@ -4,7 +4,7 @@
 	import { Github } from '$lib/git/Github';
 	import OrgDropdown from './c/OrgDropdown.svelte';
 	import RepoSearch from './c/RepoSearch.svelte';
-import Tabs from './Tabs.svelte';
+	import Tabs from './Tabs.svelte';
 
 	interface Repository {
 		full_name: string;

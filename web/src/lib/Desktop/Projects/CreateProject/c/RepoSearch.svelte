@@ -10,25 +10,25 @@
 	let show = false; // menu state
 	let menu = null; // menu wrapper DOM reference
 	let allRepos = [];
-	
+
 	const SearchItems = async (term: string) => {
 		let repos = getRepo();
-		let res:number = 0;
-		allRepos = []
+		let res: number = 0;
+		allRepos = [];
 		for (let index = 0; index < repos.length; index++) {
 			const element = repos[index];
-			if (res > 3){
+			if (res > 3) {
 				break;
-			}else{
-			if (element.org === currentOrg()) {
-				if (element.name.startsWith(term)) {
-					allRepos.push(element);
-					show = true;
-					res += 1;
-					console.log(element.name)
+			} else {
+				if (element.org === currentOrg()) {
+					if (element.name.startsWith(term)) {
+						allRepos.push(element);
+						show = true;
+						res += 1;
+						console.log(element.name);
+					}
 				}
 			}
-		}
 		}
 	};
 	onMount(() => {
