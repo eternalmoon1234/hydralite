@@ -19,7 +19,7 @@
 	<Skeleton sidebar={false}>
 		<div class="w-full h-[calc(100vh-100px)] flex items-center mt-5 justify-start flex-col gap-8">
 			<h1 class="text-3xl font-medium text-black dark:text-white">
-				Create a new <span class="text-iris-500 font-extrabold">project</span>
+				Create a new <span class="text-iris-400 font-extrabold">Project</span>
 			</h1>
 			<Tabs />
 			{#if $tab == 'provider'}

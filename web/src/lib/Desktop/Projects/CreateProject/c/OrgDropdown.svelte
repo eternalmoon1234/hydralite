@@ -1,6 +1,7 @@
 <!-- Code from https://codechips.me/tailwind-ui-react-vs-svelte/ -->
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import Dropdown from '$lib/assets/Desktop/Dropdown.svelte';
+import { onMount } from 'svelte';
 	import { scale } from 'svelte/transition';
 
 	export let user;
@@ -46,10 +47,13 @@
 	<div>
 		<button
 			on:click={() => (show = !show)}
-			class="focus:outline-none focus:shadow-solid w-full h-full flex items-center px-5 text-black dark:text-white"
+			class="focus:outline-none focus:shadow-solid w-full h-full flex items-center px-5 text-black dark:text-white justify-between"
 		>
+		<div class="flex items-center">
 			<img class="w-10 my-2 rounded-full" src={currentUser.avatar_url} alt={currentUser.login} />
 			<h5 class="px-5">{currentUser.login}</h5>
+		</div>
+		<Dropdown />
 		</button>
 
 		{#if show}
@@ -63,7 +67,7 @@
 					{#if u !== null}
 						<button
 							on:click={() => setCurrentUser(u)}
-							class="flex items-center  w-full px-5 hover:bg-green-500 hover:text-green-100 text-black dark:text-white"
+							class="flex items-center  w-full px-5 hover:bg-iris-400 hover:text-green-100 text-black dark:text-white"
 						>
 							<img class="w-[5%] my-2 rounded-full" src={u.avatar_url} alt={u.login} />
 							<h5 class="px-5">{u.login}</h5>

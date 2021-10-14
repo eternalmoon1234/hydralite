@@ -56,7 +56,7 @@
 						show = false;
 						isPublic = true;
 					}}
-					class="flex items-center justify-between w-full h-full px-4 py-2 hover:bg-green-500 hover:text-green-100"
+					class="flex items-center justify-between w-full h-full px-4 py-2 hover:bg-iris-400 hover:text-green-100"
 					>Public
 				</button>
 				<button
@@ -64,7 +64,7 @@
 						setisPublic(false);
 						(show = false), (isPublic = false);
 					}}
-					class="flex items-center justify-between w-full h-full px-4 py-2 hover:bg-green-500 hover:text-green-100"
+					class="flex items-center justify-between w-full h-full px-4 py-2 hover:bg-iris-400 hover:text-green-100"
 					>Private
 				</button>
 			</div>
