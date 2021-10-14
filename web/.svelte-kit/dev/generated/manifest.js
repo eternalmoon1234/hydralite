@@ -3,6 +3,7 @@ const c = [
 	() => import("../components/error.svelte"),
 	() => import("../../../src/routes/index.svelte"),
 	() => import("../../../src/routes/createProject.svelte"),
+	() => import("../../../src/routes/projects/[owner]/[name]/index.svelte"),
 	() => import("../../../src/routes/auth/import/[provider].svelte"),
 	() => import("../../../src/routes/auth/[provider].svelte")
 ];
@@ -16,11 +17,14 @@ export const routes = [
 	// src/routes/createProject.svelte
 	[/^\/createProject\/?$/, [c[0], c[3]], [c[1]]],
 
+	// src/routes/projects/[owner]/[name]/index.svelte
+	[/^\/projects\/([^/]+?)\/([^/]+?)\/?$/, [c[0], c[4]], [c[1]], (m) => ({ owner: d(m[1]), name: d(m[2])})],
+
 	// src/routes/auth/import/[provider].svelte
-	[/^\/auth\/import\/([^/]+?)\/?$/, [c[0], c[4]], [c[1]], (m) => ({ provider: d(m[1])})],
+	[/^\/auth\/import\/([^/]+?)\/?$/, [c[0], c[5]], [c[1]], (m) => ({ provider: d(m[1])})],
 
 	// src/routes/auth/[provider].svelte
-	[/^\/auth\/([^/]+?)\/?$/, [c[0], c[5]], [c[1]], (m) => ({ provider: d(m[1])})]
+	[/^\/auth\/([^/]+?)\/?$/, [c[0], c[6]], [c[1]], (m) => ({ provider: d(m[1])})]
 ];
 
 // we import the root layout/error components eagerly, so that

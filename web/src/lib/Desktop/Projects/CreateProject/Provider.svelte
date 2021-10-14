@@ -13,7 +13,7 @@
 		if (encryptedKey !== null) {
 			axios.post(`${import.meta.env.VITE_WEB_URL}decrypt`, { code: encryptedKey }).then((val) => {
 				const resp = val.data;
-				const { AccessToken, RefreshToken } = JSON.parse(resp);
+				const { AccessToken, RefreshToken } = JSON.parse(resp as any);
 				let conf = {
 					AccessToken: AccessToken,
 					RefreshToken: RefreshToken
