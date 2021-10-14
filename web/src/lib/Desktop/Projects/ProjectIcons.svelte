@@ -4,7 +4,7 @@
 </script>
 
 <a href={`/projects/${proj.url}`}>
-	<div class="pl-5 px-2">
+	<div class="pl-5 px-2 py-2">
 		<img
 			src={proj.Image}
 			width="50px"

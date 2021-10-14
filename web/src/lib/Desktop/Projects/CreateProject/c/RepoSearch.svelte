@@ -73,7 +73,7 @@
 				in:scale={{ duration: 100, start: 0.95 }}
 				out:scale={{ duration: 75, start: 0.95 }}
 				class="origin-top-right h-auto absolute right-0 w-full mt-1 bg-[#2A303F]
-            rounded shadow-md"
+            rounded-xl shadow-md"
 			>
 				{#each allRepos as repos}
 					<button

@@ -13,4 +13,3 @@
 	export let name: string;
 </script>
 
-{owner}/{name}

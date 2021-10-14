@@ -21,7 +21,7 @@
 				let { error } = resp;
 				if (error === undefined) {
 					localStorage.setItem('encryptedKey', resp);
-					window.location.replace('/createProject');
+					window.location.replace('/projects/create');
 				} else {
 					errorMSG = 'An unexpected error occured redirecting you to home page in 5 seconds';
 					setTimeout(function () {

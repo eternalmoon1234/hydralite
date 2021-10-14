@@ -44,7 +44,7 @@
 		</h1>
 		<h6 class="font-normal text-black dark:text-white mt-1">
 			Don’t have a repository? We’ll create one for you, so you can <span
-				class="text-iris-400 cursor-pointer font-bold"
+				class="text-iris-300 cursor-pointer font-extrabold"
 				on:click={() => {
 					tab.set('details');
 				}}>skip this step.</span
@@ -54,8 +54,8 @@
 	<div class="flex items-center justify-between mt-28">
 		<div class="flex gap-4">
 			<Buttons provider="Github" hasImage={true} onClick={OnClick} />
-			<Buttons provider="GitLab" hasImage={true} onClick={OnClick} />
-			<Buttons provider="BitBucket" hasImage={true} onClick={OnClick} />
+			<!-- <Buttons provider="GitLab" hasImage={true} onClick={OnClick} />
+			<Buttons provider="BitBucket" hasImage={true} onClick={OnClick} /> -->
 		</div>
 		<Buttons provider="Skip" hasImage={false} onClick={Skip} />
 	</div>

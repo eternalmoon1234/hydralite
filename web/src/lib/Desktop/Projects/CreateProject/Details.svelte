@@ -25,7 +25,7 @@
 					name: name,
 					description: description,
 					private: isPublic ? 'false' : 'true',
-					git_repo: $gitInfo.org + '/' + $gitInfo.repo
+					git_repo: $gitInfo !== null ? `${$gitInfo.org}/${$gitInfo.repo}` : ""
 				},
 				{
 					headers: {
@@ -37,7 +37,7 @@
 				const resp = val.data as any;
 				let { error } = resp;
 				if (error === undefined) {
-					notifications.success('Successfully created Project', 3000);
+					window.location.replace("/")
 				} else {
 					notifications.danger(error, 3000);
 				}
@@ -53,7 +53,7 @@
 	<h1 class="font-semibold text-black dark:text-white font-montserrat text-2xl">Project details</h1>
 	<h6 class="font-normal mt-2 text-black dark:text-white">
 		Already have a repository? <span
-			class="text-iris-400 cursor-pointer"
+			class="text-iris-300 cursor-pointer font-extrabold"
 			on:click={() => {
 				tab.set('details');
 			}}
@@ -62,7 +62,7 @@
 		>
 	</h6>
 	<div class="flex items-center justify-center flex-col">
-		<div class="gap-3 w-full h-[40px] mt-3 grid grid-cols-3">
+		<div class="gap-3 w-full h-[50px] mt-3 grid grid-cols-3">
 			<div class="w-full h-full col-span-2">
 				<label for="name">Name</label>
 				<input
@@ -74,12 +74,12 @@
 				/>
 			</div>
 			<div class="w-full h-full">
-				<label for="name">Visibility</label>
+				<label for="name" class="mb-2">Visibility</label>
 				<VisibilityDropDown getisPublic={getISPublic} setisPublic={setISPublic} />
 			</div>
 		</div>
 		<div class="w-full h-[12vh] flex mt-10 flex-col">
-			<label for="description">Description</label>
+			<label class="mb-2" for="description">Description</label>
 			<textarea
 				bind:value={description}
 				type="text"

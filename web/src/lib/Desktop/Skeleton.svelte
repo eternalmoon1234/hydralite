@@ -16,11 +16,11 @@
 			<h3 class="text-lg font-semibold">Blog</h3>
 			<h3 class="text-lg font-semibold">Project Ideas</h3>
 		</div>
-		<div class="flex items-center justify-between w-[185px] h-[43px] p-2 rounded-xl bg-lblack">
+		<div class="flex items-center justify-between w-auto h-[43px] p-2 rounded-xl bg-lblack">
 			<img src={$user.Profile.ProfilePic} class="rounded-full" width="23" height="23" alt="" />
-			<h4 class="text-[17px] px-2 font-semibold w-[185px-23px] truncate">
+			<!-- <h4 class="text-[17px] px-2 font-semibold w-[185px-23px] truncate">
 				{$user.Profile.Name}
-			</h4>
+			</h4> -->
 			<Dropdown />
 		</div>
 	</div>
@@ -34,7 +34,7 @@
 						<ProjectIcons {proj} />
 					{/each}
 				{/if}
-				<a href="/createProject">
+				<a href="/projects/create">
 					<div
 						class="w-[50px] h-[50px] ml-4 mt-2 rounded-full hover:rounded-xl cursor-pointer bg-lblack flex items-center justify-center"
 					>
