@@ -25,7 +25,7 @@
 					name: name,
 					description: description,
 					private: isPublic ? 'false' : 'true',
-					git_repo: $gitInfo !== null ? `${$gitInfo.org}/${$gitInfo.repo}` : ""
+					git_repo: $gitInfo !== null ? `${$gitInfo.org}/${$gitInfo.repo}` : ''
 				},
 				{
 					headers: {
@@ -37,7 +37,7 @@
 				const resp = val.data as any;
 				let { error } = resp;
 				if (error === undefined) {
-					window.location.replace("/")
+					window.location.replace('/');
 				} else {
 					notifications.danger(error, 3000);
 				}
