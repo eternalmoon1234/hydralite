@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import '../app.css';
 	import '../fonts.css';
-
 	onMount(() => {
 		let theme = localStorage.getItem('theme');
 		if (theme === null) {
